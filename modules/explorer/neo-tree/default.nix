@@ -54,7 +54,7 @@ in
           };
         };
         window = {
-          position = "right";
+          position = "left";
           mappings = {
             "f" =
               helpers.mkRaw # lua
