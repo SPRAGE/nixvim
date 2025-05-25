@@ -93,66 +93,66 @@ in
       -- Clipboard configuration for SSH sessions
       if vim.env.SSH_TTY then
         -- We're in an SSH session
-        if vim.fn.executable('xclip') == 1 then
+        if vim.fn.executable("xclip") == 1 then
           vim.g.clipboard = {
-            name = 'xclip',
+            name = "xclip",
             copy = {
-              ['+'] = 'xclip -selection clipboard',
-              ['*'] = 'xclip -selection primary',
+              ["+"] = "xclip -selection clipboard",
+              ["*"] = "xclip -selection primary",
             },
             paste = {
-              ['+'] = 'xclip -selection clipboard -o',
-              ['*'] = 'xclip -selection primary -o',
+              ["+"] = "xclip -selection clipboard -o",
+              ["*"] = "xclip -selection primary -o",
             },
             cache_enabled = 1,
           }
-        elseif vim.fn.executable('xsel') == 1 then
+        elseif vim.fn.executable("xsel") == 1 then
           vim.g.clipboard = {
-            name = 'xsel',
+            name = "xsel",
             copy = {
-              ['+'] = 'xsel --clipboard --input',
-              ['*'] = 'xsel --primary --input',
+              ["+"] = "xsel --clipboard --input",
+              ["*"] = "xsel --primary --input",
             },
             paste = {
-              ['+'] = 'xsel --clipboard --output',
-              ['*'] = 'xsel --primary --output',
+              ["+"] = "xsel --clipboard --output",
+              ["*"] = "xsel --primary --output",
             },
             cache_enabled = 1,
           }
-        elseif vim.fn.executable('wl-copy') == 1 and vim.fn.executable('wl-paste') == 1 then
+        elseif vim.fn.executable("wl-copy") == 1 and vim.fn.executable("wl-paste") == 1 then
           vim.g.clipboard = {
-            name = 'wl-clipboard',
+            name = "wl-clipboard",
             copy = {
-              ['+'] = 'wl-copy',
-              ['*'] = 'wl-copy --primary',
+              ["+"] = "wl-copy",
+              ["*"] = "wl-copy --primary",
             },
             paste = {
-              ['+'] = 'wl-paste --no-newline',
-              ['*'] = 'wl-paste --no-newline --primary',
+              ["+"] = "wl-paste --no-newline",
+              ["*"] = "wl-paste --no-newline --primary",
             },
             cache_enabled = 1,
           }
         else
           -- OSC 52 fallback for terminals that support it
           local function copy_to_clipboard(lines, _)
-            local text = table.concat(lines, '\n')
-            local base64 = vim.fn.system('base64', text):gsub('\n', '')
-            io.write(string.format('\27]52;c;%s\7', base64))
+            local text = table.concat(lines, "\n")
+            local base64 = vim.fn.system("base64", text):gsub("\n", "")
+            io.write(string.format("\027]52;c;%s\007", base64))
           end
 
           local function paste_from_clipboard()
-            return vim.fn.getreg('+')
+            return vim.fn.getreg("+")
           end
 
           vim.g.clipboard = {
-            name = 'OSC 52',
+            name = "OSC 52",
             copy = {
-              ['+'] = copy_to_clipboard,
-              ['*'] = copy_to_clipboard,
+              ["+"] = copy_to_clipboard,
+              ["*"] = copy_to_clipboard,
             },
             paste = {
-              ['+'] = paste_from_clipboard,
-              ['*'] = paste_from_clipboard,
+              ["+"] = paste_from_clipboard,
+              ["*"] = paste_from_clipboard,
             },
             cache_enabled = 0,
           }
