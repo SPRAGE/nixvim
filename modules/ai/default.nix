@@ -6,6 +6,7 @@ let
   # Just add the filename (without the .nix extension) to this list.
   enabledAiTools = [
     "copilot-lua"
+    "copilot-chat"
     # "another-ai-tool" # Add future tools here to enable them
   ];
 
