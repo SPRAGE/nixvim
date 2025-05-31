@@ -11,7 +11,7 @@
     buffer = ./buffer; # Buffer manager/bufferline
     general = ./general; # General Neovim config
     lualine = ./lualine;
-    copilot = ./copilot;
+    ai = ./ai;
     explorer = ./explorer;
     firenvim = ./firenvim;
     dashboard = ./dashboard;
