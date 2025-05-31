@@ -3,37 +3,24 @@ let
   inherit (config.nvix.mkKey) mkKeymap wKeyObj;
 in
 {
-  # Updated which-key list to include a "Chat" group
+  # Updated which-key list to include a "Model" entry.
   wKeyList = [
-    (wKeyObj [
-      "<leader>a"
-      "󰚩"
-      "AI" # Changed from "ai" to "AI" for consistency
-    ])
-    (wKeyObj [
-      "<leader>ac"
-      "" # A gear or cog icon for copilot status
-      "Copilot"
-    ])
-    (wKeyObj [
-      "<leader>aC" # Note the capital C for Chat
-      "" # A comment or chat bubble icon
-      "Chat"
-    ])
+    (wKeyObj [ "<leader>a"  "󰚩" "AI" ])
+    (wKeyObj [ "<leader>ac" "" "Copilot" ])
+    (wKeyObj [ "<leader>aC" "" "Chat" ])
+    (wKeyObj [ "<leader>am" "" "Model" ]) # <-- NEW: Keymap for selecting models
   ];
 
   keymaps = [
-    # --- Copilot Status Toggle (Existing) ---
+    # --- Copilot Status Toggle (Unchanged) ---
     (mkKeymap "n" "<leader>ac" (helpers.mkRaw # lua
       ''
         function()
-          -- This ensures copilot.lua is loaded before toggling
           pcall(require, 'copilot')
           if vim.fn.exists('*Copilot') == 0 then
             print("Copilot not available")
             return
           end
-
           if require("copilot").is_enabled() then
             vim.cmd("Copilot disable")
             print("Copilot: Disabled")
@@ -45,24 +32,23 @@ in
       ''
     ) "Toggle Copilot")
 
-    # --- NEW: Copilot Chat Keymaps ---
+    # --- Copilot Chat Keymaps (with the new key) ---
 
     # Normal Mode Keymaps
-    (mkKeymap "n" "<leader>aC" "<cmd>CopilotChatToggle<cr>" "Toggle Chat Panel")
-    (mkKeymap "n" "<leader>aq" "<cmd>CopilotChatToggle<cr>" "Toggle Chat Panel (q for query)") # Alias for the above
-    (mkKeymap "n" "<leader>ae" "<cmd>CopilotChatExplain<cr>" "Explain code")
-    (mkKeymap "n" "<leader>at" "<cmd>CopilotChatTests<cr>" "Generate tests")
-    (mkKeymap "n" "<leader>ad" "<cmd>CopilotChatDocs<cr>" "Generate docs")
-    (mkKeymap "n" "<leader>af" "<cmd>CopilotChatFix<cr>" "Fix code")
+    (mkKeymap "n" "<leader>aC"  "<cmd>CopilotChatOpen<cr>"        "Open Chat")
+    (mkKeymap "n" "<leader>aq"  "<cmd>CopilotChatOpen<cr>"        "Open Chat (Query)")
+    (mkKeymap "n" "<leader>ae"  "<cmd>CopilotChatExplain<cr>"     "Explain code")
+    (mkKeymap "n" "<leader>at"  "<cmd>CopilotChatTests<cr>"       "Generate tests")
+    (mkKeymap "n" "<leader>aR"  "<cmd>CopilotChatReview<cr>"      "Review code")
+    (mkKeymap "n" "<leader>aD"  "<cmd>CopilotChatDocs<cr>"        "Generate docs")
+    (mkKeymap "n" "<leader>aS"  "<cmd>CopilotChatStaging<cr>"     "View/Use Staged Code")
+    (mkKeymap "n" "<leader>am"  "<cmd>CopilotChat models<cr>"     "Select Model") # <-- NEW
 
-
-    # Visual Mode Keymaps (for acting on selected text)
-    (mkKeymap "v" "<leader>aC" "<cmd>CopilotChatToggle<cr>" "Toggle Chat Panel")
-    (mkKeymap "v" "<leader>ae" "<cmd>CopilotChatExplain<cr>" "Explain selected code")
-    (mkKeymap "v" "<leader>at" "<cmd>CopilotChatTests<cr>" "Generate tests for selection")
-    (mkKeymap "v" "<leader>ad" "<cmd>CopilotChatDocs<cr>" "Generate docs for selection")
-    (mkKeymap "v" "<leader>af" "<cmd>CopilotChatFix<cr>" "Fix selected code")
-    (mkKeymap "v" "<leader>ar" "<cmd>CopilotChatReview<cr>" "Review selected code")
-
+    # Visual Mode Keymaps (act on selected text)
+    (mkKeymap "v" "<leader>aC"  "<cmd>CopilotChatOpen<cr>"        "Open Chat with selection")
+    (mkKeymap "v" "<leader>ae"  "<cmd>CopilotChatExplain<cr>"     "Explain selection")
+    (mkKeymap "v" "<leader>at"  "<cmd>CopilotChatTests<cr>"       "Tests for selection")
+    (mkKeymap "v" "<leader>aR"  "<cmd>CopilotChatReview<cr>"      "Review selection")
+    (mkKeymap "v" "<leader>aD"  "<cmd>CopilotChatDocs<cr>"        "Docs for selection")
   ];
 }
