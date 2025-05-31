@@ -8,7 +8,7 @@
     self.nvixModules.lang # Language specific configurations
     self.nvixModules.copilot
     self.nvixModules.lualine
-    self.nvixModules.firenvim
+    # self.nvixModules.firenvim
     self.nvixModules.dashboard
     self.nvixModules.aesthetics
     self.nvixModules.treesitter

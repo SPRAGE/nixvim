@@ -6,11 +6,11 @@
       change_to_vcs_root = true;
       config = {
         packages.enable = false;
-        footer = [
-          ""
-          "From niksingh710"
-          ""
-        ];
+        # footer = [
+        #   ""
+        #   "From niksingh710"
+        #   ""
+        # ];
         mru.limit = 5;
         week_header.enable = true;
         project.enable = false;
